@@ -112,73 +112,123 @@ for obj_scale, dataset_folder in zip(scale_list, path_list):
     start_time = time.time()
     while idx < len(file_list):
         print("Done with %d/%d" % (idx, len(file_list)))
+        p0, p1, p2, p3, p4, p5, p6, p7 = None, None, None, None, None, None, None, None
 
         stdout = open('stdout.txt', 'w')
         stderr = open('stderr.txt', 'w')
-        file = file_list[idx]
-        render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 0' % (
-            blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
-        )
-        p0 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
-        idx += 1
 
-        file = file_list[idx]
-        render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 1' % (
-            blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
-        )
-        p1 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
-        idx += 1
+        # camera_dir = os.path.abspath(os.path.join(save_folder, "camera", dataset_folder.split("/")[-1], file))
+        # img_dir = os.path.abspath(os.path.join(save_folder, "img", dataset_folder.split("/")[-1], file))
+        # if not os.path.exists(camera_dir) and os.path.exists(img_dir):
+        for _ in range(16):
+            if idx < len(file_list):
+                file = file_list[idx]
+                render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 0' % (
+                    blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
+                )
+                p0 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
+                idx += 1
 
-        file = file_list[idx]
-        render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 2' % (
-            blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
-        )
-        p2 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
-        idx += 1
 
-        file = file_list[idx]
-        render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 3' % (
-            blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
-        )
-        p3 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
-        idx += 1
+        # camera_dir = os.path.abspath(os.path.join(save_folder, "camera", dataset_folder.split("/")[-1], file))
+        # img_dir = os.path.abspath(os.path.join(save_folder, "img", dataset_folder.split("/")[-1], file))
+        # if not os.path.exists(camera_dir) and os.path.exists(img_dir):
+        for _ in range(16):
+            if idx < len(file_list):
+                file = file_list[idx]
+                render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 1' % (
+                    blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
+                )
+                p1 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
+                idx += 1
 
-        file = file_list[idx]
-        render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 4' % (
-            blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
-        )
-        p4 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
-        idx += 1
 
-        file = file_list[idx]
-        render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 5' % (
-            blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
-        )
-        p5 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
-        idx += 1
 
-        file = file_list[idx]
-        render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 6' % (
-            blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
-        )
-        p6 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
-        idx += 1
+        # camera_dir = os.path.abspath(os.path.join(save_folder, "camera", dataset_folder.split("/")[-1], file))
+        # img_dir = os.path.abspath(os.path.join(save_folder, "img", dataset_folder.split("/")[-1], file))
+        # if not os.path.exists(camera_dir) and os.path.exists(img_dir):
+        for _ in range(16):
+            if idx < len(file_list):
+                file = file_list[idx]
+                render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 2' % (
+                    blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
+                )
+                p2 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
+                idx += 1
 
-        file = file_list[idx]
-        render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 7' % (
-            blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
-        )
-        p7 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
-        idx += 1
 
-        p0.wait()
-        p1.wait()
-        p2.wait()
-        p3.wait()
-        p4.wait()
-        p5.wait()
-        p6.wait()
-        p7.wait()
+        # camera_dir = os.path.abspath(os.path.join(save_folder, "camera", dataset_folder.split("/")[-1], file))
+        # img_dir = os.path.abspath(os.path.join(save_folder, "img", dataset_folder.split("/")[-1], file))
+        # if not os.path.exists(camera_dir) and os.path.exists(img_dir):
+        for _ in range(16):
+            if idx < len(file_list):
+                file = file_list[idx]
+                render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 3' % (
+                    blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
+                )
+                p3 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
+                idx += 1
+
+
+        # camera_dir = os.path.abspath(os.path.join(save_folder, "camera", dataset_folder.split("/")[-1], file))
+        # img_dir = os.path.abspath(os.path.join(save_folder, "img", dataset_folder.split("/")[-1], file))
+        # if not os.path.exists(camera_dir) and os.path.exists(img_dir):
+        for _ in range(16):
+            if idx < len(file_list):
+                file = file_list[idx]
+                render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 4' % (
+                    blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
+                )
+                p4 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
+                idx += 1
+
+
+        # camera_dir = os.path.abspath(os.path.join(save_folder, "camera", dataset_folder.split("/")[-1], file))
+        # img_dir = os.path.abspath(os.path.join(save_folder, "img", dataset_folder.split("/")[-1], file))
+        # if not os.path.exists(camera_dir) and os.path.exists(img_dir):
+        for _ in range(16):
+            if idx < len(file_list):
+                file = file_list[idx]
+                render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 5' % (
+                    blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
+                )
+                p5 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
+                idx += 1
+
+
+        # camera_dir = os.path.abspath(os.path.join(save_folder, "camera", dataset_folder.split("/")[-1], file))
+        # img_dir = os.path.abspath(os.path.join(save_folder, "img", dataset_folder.split("/")[-1], file))
+        # if not os.path.exists(camera_dir) and os.path.exists(img_dir):
+        for _ in range(16):
+            if idx < len(file_list):
+                file = file_list[idx]
+                render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 6' % (
+                    blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
+                )
+                p6 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
+                idx += 1
+
+
+        # camera_dir = os.path.abspath(os.path.join(save_folder, "camera", dataset_folder.split("/")[-1], file))
+        # img_dir = os.path.abspath(os.path.join(save_folder, "img", dataset_folder.split("/")[-1], file))
+        # if not os.path.exists(camera_dir) and os.path.exists(img_dir):
+        for _ in range(16):
+            if idx < len(file_list):
+                file = file_list[idx]
+                render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s --gpu 7' % (
+                    blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
+                )
+                p7 = subprocess.Popen(render_cmd, shell=True, stdout=stdout, stderr=stderr)
+                idx += 1
+
+        if p0: p0.wait()
+        if p1: p1.wait()
+        if p2: p2.wait()
+        if p3: p3.wait()
+        if p4: p4.wait()
+        if p5: p5.wait()
+        if p6: p6.wait()
+        if p7: p7.wait()
 
     end_time = time.time()
     print('Time for rendering %d models: %f' % (len(file_list), end_time - start_time))

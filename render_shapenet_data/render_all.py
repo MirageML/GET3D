@@ -103,50 +103,32 @@ if shapenet_version == '2':
     model_name = 'model_normalized.obj'
 
 suffix = ''
-if(args.quiet_mode == '1'):
+if(args.quiet_mode):
     suffix = ' >> tmp.out'
 
 import pdb;
+import time
+start_time = time.time()
 for obj_scale, dataset_folder in zip(scale_list, path_list):
     file_list = sorted(os.listdir(os.path.join(dataset_folder)))
     num = None  # set to the number of workers you want (it defaults to the cpu count of your machine)
-    tp = ThreadPool(num)
+    tp = ThreadPool(None)
     def work(file):
-        output_dir = "/home/user/mirage-dev/GET3D/render_shapenet_data/mirageml-dev/aman/experiements/GET3D/shapenet_rendered"
-        camera_dir = os.path.abspath(os.path.join(save_folder, "camera", dataset_folder.split("/")[-1], file))
-        camera_save_dir = os.path.join(output_dir, "camera", dataset_folder.split("/")[-1], file)
-        img_dir = os.path.abspath(os.path.join(save_folder, "img", dataset_folder.split("/")[-1], file))
-        img_save_dir = os.path.join(output_dir, "img", dataset_folder.split("/")[-1], file)
-
-        if os.path.exists(camera_save_dir) and os.path.exists(img_save_dir):
-            print("Files Exist on EFS; ", file)
-            if os.path.exists(camera_dir) and os.path.exists(img_dir):
-                print("Removing Local: ",file)
-                subprocess.call(["rm", "-rf", camera_dir])
-                subprocess.call(["rm", "-rf", img_dir])
-            return
-        elif os.path.exists(camera_dir) and os.path.exists(img_dir):
-            print("Files Exist Locally Moving to EFS: ", file)
-            subprocess.call(["mv", camera_dir, camera_save_dir])
-            subprocess.call(["mv", img_dir, img_save_dir])
-            return
-
         print("Rendering: ", file)
         render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views %s --engine %s%s' % (
             blender_root, save_folder, os.path.join(dataset_folder, file, model_name), obj_scale, num_views, engine, suffix
         )
         os.system(render_cmd)
 
-        print("Moving:", camera_dir, camera_save_dir)
-        subprocess.call(["mv", camera_dir, camera_save_dir])
-        print("Moving", img_dir, img_save_dir)
-        subprocess.call(["mv", img_dir, img_save_dir])
 
     for idx, file in enumerate(file_list):
         tp.apply_async(work, (file,))
 
     tp.close()
     tp.join()
+
+time_taken = time.time() - start_time
+print(f"Time Taken for {len(file_list)}: {time_taken}")
 
 
 

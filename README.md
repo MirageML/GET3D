@@ -67,7 +67,7 @@ chmod +x make_image.sh
 ```
 
 - Start an interactive docker
-  container: `docker run --gpus device=all -it --rm -v YOUR_LOCAL_FOLDER:MOUNT_FOLDER -it get3d:v1 bash`
+  container: `docker run --gpus device=all -it --rm -v /home/ubuntu/mirage-dev/aman/experiements/GET3D/:/workspace/GET3D --shm-size=8gb get3d:v1 bash`
 
 ## Preparing datasets
 
@@ -89,7 +89,7 @@ wget https://api.ngc.nvidia.com/v2/models/nvidia/research/stylegan3/versions/1/f
 #### Train the model
 
 ```bash
-cd YOUR_CODE_PATH 
+cd YOUR_CODE_PATH
 export PYTHONPATH=$PWD:$PYTHONPATH
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 ```
@@ -105,6 +105,8 @@ python train_3d.py --outdir=./logs --data=./shapenet/img/03001627 --camera_path=
 - If want to train on separate generators (main Figure in the paper):
 
 ```bash
+python train_3d.py --outdir=./checkpoints/shapenet_trash --data=./render_shapenet_data/shapenet_rendered/img/04099429 --camera_path=./render_shapenet_data/shapenet_rendered/camera --gpus=8 --batch=64 --gamma=80 --manifest_dir shapenet_rocket_04099429  --dmtet_scale 1.0 --one_3d_generator 0 --resume_pretrain checkpoints/shapenet_rocket/00007-stylegan2-04099429-gpus8-batch32-gamma80/network-snapshot-001843.pt
+
 python train_3d.py --outdir=./logs --data=./shapenet/img/02958343 --camera_path=./shapenet/camera --gpus=8 --batch=32 --gamma=40 --manifest_dir shapenet_car  --dmtet_scale 1.0 --one_3d_generator 0
 python train_3d.py --outdir=./logs --data=./shapenet/img/03790512 --camera_path=./shapenet/camera --gpus=8 --batch=32 --gamma=80 --manifest_dir shapenet_motorbike  --dmtet_scale 1.0 --one_3d_generator 0
 python train_3d.py --outdir=./logs --data=./shapenet/img/03001627 --camera_path=./shapenet/camera --gpus=8 --batch=32 --gamma=400 --manifest_dir shapenet_chair  --dmtet_scale 0.8 --one_3d_generator 0
@@ -124,6 +126,8 @@ If want to debug the model first, reduce the number of gpus to 1 and batch size 
 - Inference could operate on a single GPU with 16 GB memory.
 
 ```bash
+python train_3d.py --outdir=save_inference_results/shapenet_rocket  --gpus=1 --batch=4 --gamma=40 --manifest_dir shapenet_rocket_04099429  --dmtet_scale 1.0 --one_3d_generator 0  --fp32 0 --inference_vis 1 --inference_to_generate_textured_mesh 1 --resume_pretrain checkpoints/shapenet_rocket/00007-stylegan2-04099429-gpus8-batch32-gamma80/network-snapshot-001843.pt
+
 python train_3d.py --outdir=save_inference_results/shapenet_car  --gpus=1 --batch=4 --gamma=40 --manifest_dir shapenet_car  --dmtet_scale 1.0 --one_3d_generator 1  --fp32 0 --inference_vis 1 --resume_pretrain MODEL_PATH
 python train_3d.py --outdir=save_inference_results/shapenet_chair  --gpus=1 --batch=4 --gamma=40 --manifest_dir shapenet_chair  --dmtet_scale 0.8 --one_3d_generator 1  --fp32 0 --inference_vis 1 --resume_pretrain MODEL_PATH
 python train_3d.py --outdir=save_inference_results/shapenet_motorbike  --gpus=1 --batch=4 --gamma=40 --manifest_dir shapenet_motorbike  --dmtet_scale 1.0 --one_3d_generator 1  --fp32 0 --inference_vis 1 --resume_pretrain MODEL_PATH
